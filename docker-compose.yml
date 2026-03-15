@@ -1,5 +1,7 @@
 services:
   lizmap:
+    profiles:
+      - lizmap
     image: 3liz/lizmap-web-client:${LIZMAP_VERSION_TAG}
     environment:
       LIZMAP_CACHEREDISDB: '1'
@@ -39,6 +41,8 @@ services:
         start_interval: 2s
         start_period: 10s
   map:
+    profiles:
+      - lizmap
     image: 3liz/qgis-map-server:${QGIS_VERSION_TAG}
     environment:
       3LIZ_SKIP_STATS: 1
@@ -69,10 +73,14 @@ services:
       - ${OWS_PORT}:8080
     restart: unless-stopped
   redis:
+    profiles:
+      - lizmap
     image: redis:8-alpine
     volumes:
       - { type: volume, source: redis_data, target: /data }
   web:
+    profiles:
+      - lizmap
     image: nginx:alpine
     user: ${LIZMAP_UID}:${LIZMAP_GID}
     volumes:
@@ -86,6 +94,8 @@ services:
       lizmap:
         condition: service_healthy
   postgis:
+    profiles:
+      - lizmap
     image: 3liz/postgis:${POSTGIS_VERSION}
     volumes:
       - { type: volume, source: postgis_data, target: /var/lib/postgresql/data }

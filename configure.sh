@@ -118,6 +118,7 @@ _configure() {
     #
     echo "Copying files"
     cp -R $INSTALL_SOURCE/lizmap.dir/* $INSTALL_DEST/
+    chmod 0755 $INSTALL_DEST/etc/postgres.init.d/*.sh
 
     echo "Creating directories"
     _makedirs
@@ -158,10 +159,19 @@ configure() {
         -e QGSRV_SERVER_PLUGINPATH=/lizmap/plugins \
         -e LIZMAP_PROJECTS=$LIZMAP_PROJECTS \
         -e LIZMAP_VERSION_TAG=$LIZMAP_VERSION_TAG \
+        -e LIZMAP_PORT=$LIZMAP_PORT \
         -e QGIS_VERSION_TAG=$QGIS_VERSION_TAG \
         -e POSTGIS_VERSION=$POSTGIS_VERSION \
+        -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
+        -e POSTGRES_LIZMAP_DB=$POSTGRES_LIZMAP_DB \
+        -e POSTGRES_LIZMAP_USER=$POSTGRES_LIZMAP_USER \
+        -e POSTGRES_LIZMAP_PASSWORD=$POSTGRES_LIZMAP_PASSWORD \
         -e QGIS_MAP_WORKERS=$QGIS_MAP_WORKERS \
         -e WPS_NUM_WORKERS=$WPS_NUM_WORKERS \
+        -e OWS_PORT=$OWS_PORT \
+        -e WPS_PORT=$WPS_PORT \
+        -e POSTGIS_PORT=$POSTGIS_PORT \
+        -e POSTGIS_ALIAS=$POSTGIS_ALIAS \
         -v $INSTALL_SOURCE:/install \
         -v $INSTALL_DEST:/lizmap \
         -v $scriptdir:/src \
